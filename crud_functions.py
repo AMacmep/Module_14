@@ -1,5 +1,4 @@
 import sqlite3
-from distutils.command.check import check
 
 
 def initiate_db():
@@ -32,7 +31,6 @@ def get_all_products(id_product):
     connections = sqlite3.connect('products.db')
     cursor = connections.cursor()
     cursor.execute('SELECT * FROM Products WHERE id=?', (id_product,))
-    check_product=cursor.fetchall()
+    check_product = cursor.fetchall()
     return check_product
     connections.close()
-

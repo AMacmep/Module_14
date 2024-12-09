@@ -3,6 +3,7 @@
 
 import sqlite3
 
+
 connections = sqlite3.connect('not_telegram.db')
 cursor = connections.cursor()
 cursor.execute('''
