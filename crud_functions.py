@@ -1,6 +1,6 @@
 import sqlite3
 
-
+# Создание баз данных products.db и users.db
 def initiate_db():
     connections = sqlite3.connect('products.db')
     cursor = connections.cursor()
@@ -10,12 +10,46 @@ def initiate_db():
     title TEXT NOT NULL,
     description TEXT,
     price INTEGER NOT NULL
-    );
+    )
     ''')
     connections.commit()
     connections.close()
 
+    connections = sqlite3.connect('users.db')
+    cursor = connections.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Users(
+        id INTEGER PRIMARY KEY,
+        username TEXT NOT NULL,
+        email TEXT NOT NULL,
+        age INTEGER NOT NULL,
+        balance INTEGER NOT NULL
+        )
+        ''')
+    connections.commit()
+    connections.close()
 
+
+# Заполнение базы данных users, внесение дополнительных данных
+def add_user(username, email, age):
+    connections = sqlite3.connect('users.db')
+    cursor = connections.cursor()
+    if is_included(username):
+        cursor.execute('INSERT INTO Users (username, email, age, balance) VALUES (?, ?, ?, ?)',
+                   (username, email, age, 1000))
+    connections.commit()
+
+
+def is_included(username):
+    connections = sqlite3.connect('users.db')
+    cursor = connections.cursor()
+    print(cursor.execute('SELECT * FROM Users WHERE username=?', (username,)))
+    return cursor.execute('SELECT * FROM Users WHERE username=?', (username,))=='None'
+    connections.commit()
+    connections.close()
+
+
+# Заполнение баз данных
 def fill_db():
     connections = sqlite3.connect('products.db')
     cursor = connections.cursor()
@@ -27,6 +61,7 @@ def fill_db():
     connections.close()
 
 
+# Извлечение данных из баз данных
 def get_all_products(id_product):
     connections = sqlite3.connect('products.db')
     cursor = connections.cursor()
@@ -34,3 +69,7 @@ def get_all_products(id_product):
     check_product = cursor.fetchall()
     return check_product
     connections.close()
+
+
+initiate_db()
+add_user('Ivan', 'iv@mail.ru', 35)
