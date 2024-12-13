@@ -40,11 +40,11 @@ def add_user(username, email, age):
     connections.commit()
 
 
-def is_included(username):
+def is_included(username_incl):
     connections = sqlite3.connect('users.db')
     cursor = connections.cursor()
-    print(cursor.execute('SELECT * FROM Users WHERE username=?', (username,)))
-    return cursor.execute('SELECT * FROM Users WHERE username=?', (username,))=='None'
+    print(cursor.execute('SELECT * FROM Users WHERE id=?', (username_incl,)))
+    return cursor.execute('SELECT * FROM Users WHERE id=?', (username_incl,))=='None'
     connections.commit()
     connections.close()
 
@@ -68,8 +68,12 @@ def get_all_products(id_product):
     cursor.execute('SELECT * FROM Products WHERE id=?', (id_product,))
     check_product = cursor.fetchall()
     return check_product
+    connections.commit()
     connections.close()
 
 
 initiate_db()
 add_user('Ivan', 'iv@mail.ru', 35)
+add_user('Fedor', 'fe@mail.ru', 38)
+add_user('Andrey', 'an@mail.ru', 42)
+add_user('Andrey', 'an2@mail.ru', 15)
