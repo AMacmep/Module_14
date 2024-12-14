@@ -105,17 +105,18 @@ async def sihg_up(message):
     await message.answer('Введите имя пользователя (только латинский алфавит):')
     await RegistrationState.username.set()
 
+
 # Регистрация
 @dp.message_handler(state=RegistrationState.username)
 async def set_username(message, state):
-
     if is_included(message.text):
-        await message.answer('Пользователь существует, введите другое имя')
-        await RegistrationState.username.set()
-    else:
         await state.update_data(username=message.text)
         await message.answer("Введите свой email:")
         await RegistrationState.email.set()
+    else:
+        await message.answer('Пользователь существует, введите другое имя')
+        await RegistrationState.username.set()
+
 
 # Ввод email
 @dp.message_handler(state=RegistrationState.email)
@@ -124,14 +125,16 @@ async def set_email(message, state):
     await message.answer("Введите свой возраст:")
     await RegistrationState.age.set()
 
+
 # Ввод возраста
 @dp.message_handler(state=RegistrationState.age)
 async def set_age(message, state):
     await state.update_data(age=message.text)
     user_data = await state.get_data()
-    add_user(user_data[username], user_data[email], user_data[age])
-    await message.answer(f"{user_data[username]} зарегистрирован")
+    add_user(user_data['username'], user_data['email'], user_data['age'])
+    await message.answer(f"{user_data['username']} зарегистрирован")
     await state.finish()
+
 
 @dp.message_handler(text='Расчитать')
 async def main_menu(message):

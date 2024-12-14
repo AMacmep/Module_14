@@ -71,10 +71,5 @@ def get_all_products(id_product):
     connections.commit()
     connections.close()
 
-
-initiate_db()
-us_n='And'
-add_user(us_n, 'iv@mail.ru', 35)
-add_user('fdd', 'fe@mail.ru', 38)
-add_user('Ddd1', 'an@mail.ru', 42)
-add_user('ee', 'an2@mail.ru', 15)
+# initiate_db()
+# fill_db()
