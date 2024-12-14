@@ -1,5 +1,6 @@
 import sqlite3
 
+
 # Создание баз данных products.db и users.db
 def initiate_db():
     connections = sqlite3.connect('products.db')
@@ -36,17 +37,16 @@ def add_user(username, email, age):
     cursor = connections.cursor()
     if is_included(username):
         cursor.execute('INSERT INTO Users (username, email, age, balance) VALUES (?, ?, ?, ?)',
-                   (username, email, age, 1000))
+                       (username, email, age, 1000))
     connections.commit()
+    connections.close()
 
 
 def is_included(username_incl):
     connections = sqlite3.connect('users.db')
     cursor = connections.cursor()
-    print(cursor.execute('SELECT * FROM Users WHERE id=?', (username_incl,)))
-    return cursor.execute('SELECT * FROM Users WHERE id=?', (username_incl,))=='None'
-    connections.commit()
-    connections.close()
+    check_user = cursor.execute('SELECT * FROM Users WHERE username=?', (username_incl,))
+    return check_user.fetchone() == None
 
 
 # Заполнение баз данных
@@ -73,7 +73,8 @@ def get_all_products(id_product):
 
 
 initiate_db()
-add_user('Ivan', 'iv@mail.ru', 35)
-add_user('Fedor', 'fe@mail.ru', 38)
-add_user('Andrey', 'an@mail.ru', 42)
-add_user('Andrey', 'an2@mail.ru', 15)
+us_n='And'
+add_user(us_n, 'iv@mail.ru', 35)
+add_user('fdd', 'fe@mail.ru', 38)
+add_user('Ddd1', 'an@mail.ru', 42)
+add_user('ee', 'an2@mail.ru', 15)
